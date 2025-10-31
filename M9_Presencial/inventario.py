@@ -43,7 +43,10 @@ def buscar_precio(nombre):
     
     # [Tu código va aquí]
     
-    pass # Reemplaza esta línea
+    if nombre in inventario:
+        precio, _ = inventario[nombre]
+        return precio
+    else return
 
 def valor_total_inventario():
     """Calcula el valor monetario total de todos los productos en stock."""
