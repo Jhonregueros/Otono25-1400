@@ -20,6 +20,7 @@
 # --------------------------------------------------------------------------
 
 def ordenar_de_mayor_a_menor(lista_numeros):
+    
     """
     Ordena una lista de números de mayor a menor, modificándola en el lugar.
 
@@ -29,9 +30,13 @@ def ordenar_de_mayor_a_menor(lista_numeros):
     # TODO: Paso 1. Ordena la lista de menor a mayor usando .sort()
     # lista_numeros.sort()
 
+    lista_numeros.sort()
+
     # TODO: Paso 2. Invierte la lista para que quede de mayor a menor.
     # lista_numeros.reverse()
 
+    lista_numeros.reverse()
+    
     # Esta función no necesita un `return`.
 
 
