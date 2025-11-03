@@ -19,11 +19,15 @@ def tupla_no_hashable():
     t = (list0, list1)
 
     # TODO: Añade el número 6 al final de la segunda lista (list1) usando t
+    t[1].append(6)
     # Resultado esperado: ([1, 2, 3], [4, 5, 6])
 
     # TODO: Intenta usar la tupla t como clave en un diccionario y captura el error con try-except
     # Debes imprimir un mensaje que diga que no se puede usar como clave si ocurre un TypeError
-    pass
+    try:
+        d = {t: "valor"}
+    except TypeError:
+        print("❌ No se puede usar una tupla con listas internas como clave de diccionario.")
 
 
 # ============================
@@ -47,11 +51,15 @@ def shift_word(word, shift):
     result = []
 
     # Recorre cada letra y aplícale el desplazamiento
-    for letter in word:
+    for letter in word.lower():
+        if letter not in letter_map:
+            result.append(letter)
         # TODO: Maneja letras no reconocidas (espacios, tildes, etc.)
-        pass
+        else:
+            new_index = (letter_map[letter] + shift) % len(letters)
+            result.append(reverse_map[new_index])
 
-    # Une la lista resultante en una cadena
+        # Une la lista resultante en una cadena
     return ''.join(result)
 
 
@@ -65,7 +73,18 @@ def most_frequent_letters(texto):
     """
     # TODO: Cuenta las letras ignorando espacios y ordena por frecuencia
     # Tip: Usa value_counts() del ejercicio anterior si lo tienes
-    pass
+    
+    texto = texto.replace(" ", "").lower()
+    contador = {}
+    for letra in texto:
+        contador[letra] = contador.get(letra, 0) + 1
+    
+    ordenadas = sorted(contador.items(), key=lambda x: x[1], reverse=True)
+    print("Letras más frecuentes:")
+    for letra, frecuencia in ordenadas:
+        print(f"{letra}: {frecuencia}")
+
+    return ordenadas
 
 
 # ============================
@@ -81,7 +100,17 @@ def encontrar_anagramas(lista_palabras):
     ['retainers', 'ternaries']
     """
     # TODO: Crea un diccionario que relacione la palabra ordenada con sus anagramas
-    pass
+    
+    anagramas = {}
+    for palabra in lista_palabras:
+        clave = ''.join(sorted(palabra))
+        anagramas.setdefault(clave, []).append(palabra)
+    
+    for grupo in anagramas.values():
+        if len(grupo) > 1:
+            print(grupo)
+
+    return anagramas
 
 
 # ============================
@@ -96,7 +125,10 @@ def word_distance(word1, word2):
     word_distance("casa", "cata") -> 1
     """
     # TODO: Usa zip para comparar letra por letra y contar diferencias
-    pass
+    
+    if len(word1) != len(word2):
+        raise ValueError("Las palabras deben tener la misma longitud.")
+    return sum(1 for a, b in zip(word1, word2) if a != b)
 
 
 # ============================
@@ -114,8 +146,19 @@ def encontrar_metatesis(lista_palabras):
     # 1. Encuentra anagramas usando el mismo enfoque del ejercicio anterior
     # 2. Para cada par en cada grupo de anagramas, verifica si son pares de metátesis
     #    (solo deben diferir en exactamente dos letras y ser del mismo largo)
-    pass
+    
+    grupos = {}
+    for palabra in lista_palabras:
+        clave = ''.join(sorted(palabra))
+        grupos.setdefault(clave, []).append(palabra)
 
+    for grupo in grupos.values():
+        if len(grupo) > 1:
+            for i in range(len(grupo)):
+                for j in range(i + 1, len(grupo)):
+                    w1, w2 = grupo[i], grupo[j]
+                    if len(w1) == len(w2) and word_distance(w1, w2) == 2:
+                        print((w1, w2))
 
 # ============================
 # PRUEBAS
